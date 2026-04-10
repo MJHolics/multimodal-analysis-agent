@@ -1,0 +1,16 @@
+.env
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+data/test_images/*
+!data/test_images/.gitkeep
+memory/
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+chroma_db/
+*.pt
+*.onnx
+*.engine
