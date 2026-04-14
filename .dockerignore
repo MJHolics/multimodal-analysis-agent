@@ -1,0 +1,32 @@
+# Git
+.git
+.gitignore
+
+# 환경변수 (절대 포함 금지)
+.env
+
+# 노트북 & 개발 파일
+notebooks/
+anaconda_projects/
+scripts/
+memory/
+agents/
+tools/
+*.ipynb
+
+# 파이썬 캐시
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# 모델 바이너리
+*.pt
+*.onnx
+*.engine
+
+# 기타
+.vscode/
+*.md
+TROUBLESHOOTING.md

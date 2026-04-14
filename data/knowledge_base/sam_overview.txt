@@ -1,0 +1,1 @@
+SAM(Segment Anything Model)은 포인트·박스 프롬프트로 객체를 세그멘테이션합니다.

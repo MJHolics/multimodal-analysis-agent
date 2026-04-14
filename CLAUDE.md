@@ -76,9 +76,12 @@ Agent       Agent
 
 ## 진행 상황
 - [x] 프로젝트 구조 생성
-- [ ] Notebook 01 — LangGraph 기초
-- [ ] Notebook 02 — Vision Tools
-- [ ] Notebook 03 — RAG Pipeline
-- [ ] Notebook 04 — Full Agent Integration
-- [ ] FastAPI 서빙
-- [ ] Docker 배포
+- [x] Notebook 01 — LangGraph 기초
+- [x] Notebook 02 — Vision Tools
+- [x] Notebook 03 — RAG Pipeline
+- [x] Notebook 04 — Full Agent Integration
+- [x] FastAPI 서빙 (api/ — POST /analyze, GET /health, Swagger UI)
+- [x] Docker 배포 (Dockerfile + docker-compose.yml)
+- [x] README.md (아키텍처 다이어그램 + API 문서 + 벤치마크)
+- [ ] 실제 CV 모델 연동 (현재 Mock)
+- [ ] Streaming 응답 (/analyze/stream)

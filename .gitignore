@@ -11,6 +11,10 @@ build/
 .venv/
 venv/
 chroma_db/
+data/chroma_db/
 *.pt
 *.onnx
 *.engine
+
+# Docker
+docker-compose.override.yml
