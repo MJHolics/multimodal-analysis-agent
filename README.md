@@ -73,8 +73,8 @@ User Input (image + question)
 ### 1. 환경 설정
 
 ```bash
-git clone https://github.com/<your-id>/ai_agent_project.git
-cd ai_agent_project
+git clone https://github.com/MJHolics/multimodal-analysis-agent.git
+cd multimodal-analysis-agent
 
 pip install -r requirements.txt
 ```
@@ -162,21 +162,23 @@ ollama serve
 ## Project Structure
 
 ```
-ai_agent_project/
+multimodal-analysis-agent/
 ├── api/
 │   ├── main.py              # FastAPI 앱
 │   ├── models.py            # Pydantic 스키마
-│   ├── pipeline.py          # LangGraph 파이프라인
+│   ├── pipeline.py          # LangGraph 파이프라인 (StateGraph 정의)
 │   └── routers/
-│       └── analyze.py       # /analyze 엔드포인트
+│       └── analyze.py       # /analyze, /analyze/stream 엔드포인트
+├── tools/
+│   └── cv_tools.py          # YOLO / SAM / DepthAnything LangGraph Tool 래퍼
 ├── data/
-│   ├── chroma_db/           # 벡터스토어 (영속)
-│   └── knowledge_base/      # RAG 지식 문서
+│   ├── chroma_db/           # ChromaDB 벡터스토어 (영속)
+│   └── knowledge_base/      # RAG 지식 문서 (YOLO, SAM, Depth, LangGraph, RAG)
 ├── notebooks/
-│   ├── 01_langgraph_basics.ipynb
-│   ├── 02_vision_tools.ipynb
-│   ├── 03_rag_pipeline.ipynb
-│   └── 04_full_agent_integration.ipynb
+│   ├── 01_langgraph_basics.ipynb       # StateGraph 기초, Human-in-the-loop
+│   ├── 02_vision_tools.ipynb           # CV Tool 래핑 및 파이프라인
+│   ├── 03_rag_pipeline.ipynb           # ChromaDB 구축 및 RAG Agent
+│   └── 04_full_agent_integration.ipynb # 전체 파이프라인 통합 테스트
 ├── Dockerfile
 ├── docker-compose.yml
 ├── requirements.txt
@@ -187,15 +189,16 @@ ai_agent_project/
 
 ## Roadmap
 
-- [x] Notebook 01 — LangGraph StateGraph 기초
-- [x] Notebook 02 — Vision Tools (YOLO/SAM/Depth) LangGraph 래핑
-- [x] Notebook 03 — RAG Pipeline (ChromaDB)
-- [x] Notebook 04 — Full Agent Integration
-- [x] FastAPI REST API 서빙
+- [x] Notebook 01 — LangGraph StateGraph 기초 및 Human-in-the-loop
+- [x] Notebook 02 — Vision Tools (YOLO/SAM/Depth) LangGraph Tool 래핑
+- [x] Notebook 03 — RAG Pipeline (ChromaDB 벡터스토어 구축)
+- [x] Notebook 04 — Full Agent Integration (전체 파이프라인 통합 테스트)
+- [x] FastAPI REST API 서빙 (`/analyze`)
+- [x] Streaming 응답 (`/analyze/stream` — SSE)
+- [x] 실제 CV 모델 연동 (YOLO/SAM/Depth, Mock 폴백 포함)
 - [x] Docker 컨테이너화
-- [ ] 실제 CV 모델 연동 (현재 Mock)
-- [ ] Streaming 응답 (`/analyze/stream`)
 - [ ] LangSmith 트레이싱 연동
+- [ ] 멀티모달 입력 확장 (영상 스트림)
 
 ---
 

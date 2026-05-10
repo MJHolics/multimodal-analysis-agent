@@ -18,3 +18,9 @@ data/chroma_db/
 
 # Docker
 docker-compose.override.yml
+
+# IDE / AI assistant internals
+.claude/
+.vscode/
+CLAUDE.md
+anaconda_projects/
