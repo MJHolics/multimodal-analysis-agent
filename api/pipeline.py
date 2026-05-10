@@ -5,7 +5,6 @@ Notebook 04 핵심 로직을 FastAPI 서빙용으로 추출
 import os
 import json
 import re
-import random
 import requests
 from pathlib import Path
 from typing import TypedDict, List, Optional
@@ -60,48 +59,13 @@ LLM, LLM_BACKEND = _init_llm()
 
 
 # ══════════════════════════════════════════════════════════════
-# 2. CV 래퍼 (Mock — 실제 모델 교체 가능)
+# 2. CV 래퍼 (실제 모델 우선, 없으면 Mock 폴백)
 # ══════════════════════════════════════════════════════════════
 
-class YOLOWrapper:
-    def detect(self, image_b64: str) -> dict:
-        objects = [
-            {"class": "car",           "confidence": 0.92, "bbox": [100, 200, 200, 280]},
-            {"class": "car",           "confidence": 0.87, "bbox": [400, 210, 520, 270]},
-            {"class": "traffic light", "confidence": 0.78, "bbox": [280, 160, 340, 240]},
-            {"class": "road",          "confidence": 0.95, "bbox": [0, 240, 640, 480]},
-        ]
-        return {
-            "objects": objects,
-            "count": len(objects),
-            "classes": list({o["class"] for o in objects}),
-            "model": "yolov8n-mock",
-        }
+from tools.cv_tools import YOLOWrapper, SAMWrapper, DepthWrapper
 
-
-class SAMWrapper:
-    def segment(self, image_b64: str) -> dict:
-        return {
-            "mask_count": 5,
-            "coverage_ratio": 0.82,
-            "largest_segment": {"class": "road", "area_ratio": 0.45},
-            "model": "sam-vit-h-mock",
-        }
-
-
-class DepthWrapper:
-    def estimate(self, image_b64: str) -> dict:
-        return {
-            "mean_depth": round(random.uniform(8, 15), 1),
-            "depth_range": {"min": 2.1, "max": 45.0},
-            "near_objects": ["car", "traffic light"],
-            "far_objects": ["road"],
-            "model": "depth-anything-v2-mock",
-        }
-
-
-yolo = YOLOWrapper()
-sam = SAMWrapper()
+yolo  = YOLOWrapper()
+sam   = SAMWrapper()
 depth = DepthWrapper()
 
 
@@ -254,7 +218,7 @@ def vision_analyst_node(state: PipelineState) -> dict:
     sam_result = sam.segment(image_b64)
     log.append(f'[Vision/SAM] {sam_result["mask_count"]}개 마스크, 커버리지 {sam_result["coverage_ratio"]}')
 
-    depth_result = depth.estimate(image_b64)
+    depth_result = depth.estimate(image_b64, yolo_objects=yolo_result.get("objects", []))
     log.append(f'[Vision/Depth] 평균 깊이: {depth_result["mean_depth"]}m')
 
     classes_str = ", ".join(yolo_result["classes"])
