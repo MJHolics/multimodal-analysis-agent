@@ -24,3 +24,4 @@ docker-compose.override.yml
 .vscode/
 CLAUDE.md
 anaconda_projects/
+scripts/
