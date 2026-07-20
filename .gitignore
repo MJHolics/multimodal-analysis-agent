@@ -25,3 +25,9 @@ docker-compose.override.yml
 CLAUDE.md
 anaconda_projects/
 scripts/
+
+# 개인 문서(이력서 등) — 공개 레포에 올리지 않는다
+이력서.md
+지민종-이력서.pdf
+*이력서*
+PORTFOLIO.md
