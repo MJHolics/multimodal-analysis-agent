@@ -1,0 +1,1307 @@
+{
+  "meta": {
+    "dataset": {
+      "total": 90,
+      "dev": 30,
+      "test": 60,
+      "labels": {
+        "vision_only": 30,
+        "rag_only": 30,
+        "both": 30
+      }
+    },
+    "cv_mode": {
+      "yolo": "real",
+      "sam": "real",
+      "depth": "real"
+    },
+    "llm_router": "벤치에서 비활성화 (폴백 경로를 측정 대상으로 삼음)",
+    "path_costs": {
+      "vision_s": 0.5033,
+      "rag_s": 0.0015,
+      "vision_samples": 6,
+      "rag_samples": 6,
+      "images": [
+        "bus.jpg",
+        "zidane.jpg"
+      ],
+      "path_cost_s": {
+        "vision_only": 0.5033,
+        "rag_only": 0.0015,
+        "both": 0.5048
+      }
+    },
+    "note": "라벨은 손으로 붙인 합성 라벨. 키워드는 dev 30건만 보고 정하고 test 60건으로 보고한다."
+  },
+  "routers": [
+    {
+      "name": "always_both",
+      "desc": "고정 체인 (Vision+RAG 항상 실행)",
+      "dev": {
+        "n": 30,
+        "accuracy": 0.3333,
+        "per_class_recall": {
+          "vision_only": 0.0,
+          "rag_only": 0.0,
+          "both": 1.0
+        },
+        "confusion": {
+          "vision_only": {
+            "vision_only": 0,
+            "rag_only": 0,
+            "both": 10
+          },
+          "rag_only": {
+            "vision_only": 0,
+            "rag_only": 0,
+            "both": 10
+          },
+          "both": {
+            "vision_only": 0,
+            "rag_only": 0,
+            "both": 10
+          }
+        },
+        "total_cost_s": 15.14,
+        "avg_cost_s": 0.5048,
+        "vision_calls": 30,
+        "rag_calls": 30,
+        "wasted_vision_calls": 10,
+        "wasted_rag_calls": 10,
+        "injected_context_chars": 7341,
+        "wasted_context_chars": 2438,
+        "misrouted": [
+          {
+            "question": "이 이미지에 뭐가 보여?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "사진 속 객체를 세어줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "여기 사람 몇 명이야?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "화면에서 가장 큰 물체는?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "이 장면을 묘사해줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "앞쪽에 있는 물체가 뭐야?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "배경에 뭐가 있는지 알려줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "이 사진은 실내야 실외야?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "가까이 있는 대상만 알려줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "이미지에서 차량을 찾아줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "YOLO가 뭐야?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "SAM과 YOLO의 차이는?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "RAG 파이프라인을 설명해줘",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "LangGraph는 어떤 프레임워크야?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "깊이 추정이 뭐야?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "벡터 데이터베이스가 뭐지?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "임베딩 개념을 알려줘",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "세그멘테이션과 검출의 차이는?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "ChromaDB의 특징을 알려줘",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "StateGraph가 뭐야?",
+            "gold": "rag_only",
+            "pred": "both"
+          }
+        ]
+      },
+      "test": {
+        "n": 60,
+        "accuracy": 0.3333,
+        "per_class_recall": {
+          "vision_only": 0.0,
+          "rag_only": 0.0,
+          "both": 1.0
+        },
+        "confusion": {
+          "vision_only": {
+            "vision_only": 0,
+            "rag_only": 0,
+            "both": 20
+          },
+          "rag_only": {
+            "vision_only": 0,
+            "rag_only": 0,
+            "both": 20
+          },
+          "both": {
+            "vision_only": 0,
+            "rag_only": 0,
+            "both": 20
+          }
+        },
+        "total_cost_s": 30.29,
+        "avg_cost_s": 0.5048,
+        "vision_calls": 60,
+        "rag_calls": 60,
+        "wasted_vision_calls": 20,
+        "wasted_rag_calls": 20,
+        "injected_context_chars": 14790,
+        "wasted_context_chars": 4913,
+        "misrouted": [
+          {
+            "question": "사람과 물건을 구분해서 알려줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "이 그림에서 눈에 띄는 게 뭐야?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "중앙에 있는 대상이 뭔지 알려줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "이 이미지에 위험해 보이는 게 있어?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "물체들이 얼마나 떨어져 있어?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "왼쪽에 있는 게 뭐야?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "이 이미지 요약해줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "화면에 글자가 보여?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "사진 속 인원수를 알려줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "이 장면에서 가장 앞에 있는 게 뭐야?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "이미지에 동물이 있어?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "여기서 탈것을 찾아줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "이 사진의 주요 피사체는?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "화면 오른쪽을 설명해줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "이 이미지에 몇 종류의 물체가 있어?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "사진에서 가장 먼 대상은?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "보이는 것만 정리해줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "이 사진 안전해 보여?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "화면 아래쪽에 뭐가 있어?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "찍힌 대상들을 나열해줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "객체 검출 모델은 어떻게 학습해?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "Segment Anything은 왜 강력해?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "DepthAnything의 원리는?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "리트리버는 무슨 역할이야?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "청킹은 왜 필요해?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "조건부 엣지가 뭐야?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "멀티에이전트 구조의 장점은?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "유사도 검색은 어떻게 동작해?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "YOLO의 버전별 차이가 뭐야?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "RAG와 파인튜닝 중 뭘 써야 해?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "트랜스포머 구조를 설명해줘",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "에이전트와 체인의 차이는?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "벡터 인덱스는 왜 쓰는 거야?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "프롬프트 엔지니어링이 뭐야?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "모델 경량화 방법에는 뭐가 있어?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "시맨틱 검색이란?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "툴 콜링은 어떻게 동작해?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "컨텍스트 윈도우가 뭐야?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "온디바이스 추론의 장점은?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "파인튜닝과 프롬프트의 차이는?",
+            "gold": "rag_only",
+            "pred": "both"
+          }
+        ]
+      },
+      "all": {
+        "n": 90,
+        "accuracy": 0.3333,
+        "per_class_recall": {
+          "vision_only": 0.0,
+          "rag_only": 0.0,
+          "both": 1.0
+        },
+        "confusion": {
+          "vision_only": {
+            "vision_only": 0,
+            "rag_only": 0,
+            "both": 30
+          },
+          "rag_only": {
+            "vision_only": 0,
+            "rag_only": 0,
+            "both": 30
+          },
+          "both": {
+            "vision_only": 0,
+            "rag_only": 0,
+            "both": 30
+          }
+        },
+        "total_cost_s": 45.43,
+        "avg_cost_s": 0.5048,
+        "vision_calls": 90,
+        "rag_calls": 90,
+        "wasted_vision_calls": 30,
+        "wasted_rag_calls": 30,
+        "injected_context_chars": 22131,
+        "wasted_context_chars": 7351,
+        "misrouted": [
+          {
+            "question": "이 이미지에 뭐가 보여?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "사진 속 객체를 세어줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "여기 사람 몇 명이야?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "화면에서 가장 큰 물체는?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "이 장면을 묘사해줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "앞쪽에 있는 물체가 뭐야?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "배경에 뭐가 있는지 알려줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "이 사진은 실내야 실외야?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "가까이 있는 대상만 알려줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "이미지에서 차량을 찾아줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "사람과 물건을 구분해서 알려줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "이 그림에서 눈에 띄는 게 뭐야?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "중앙에 있는 대상이 뭔지 알려줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "이 이미지에 위험해 보이는 게 있어?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "물체들이 얼마나 떨어져 있어?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "왼쪽에 있는 게 뭐야?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "이 이미지 요약해줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "화면에 글자가 보여?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "사진 속 인원수를 알려줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "이 장면에서 가장 앞에 있는 게 뭐야?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "이미지에 동물이 있어?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "여기서 탈것을 찾아줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "이 사진의 주요 피사체는?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "화면 오른쪽을 설명해줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "이 이미지에 몇 종류의 물체가 있어?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "사진에서 가장 먼 대상은?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "보이는 것만 정리해줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "이 사진 안전해 보여?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "화면 아래쪽에 뭐가 있어?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "찍힌 대상들을 나열해줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "YOLO가 뭐야?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "SAM과 YOLO의 차이는?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "RAG 파이프라인을 설명해줘",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "LangGraph는 어떤 프레임워크야?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "깊이 추정이 뭐야?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "벡터 데이터베이스가 뭐지?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "임베딩 개념을 알려줘",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "세그멘테이션과 검출의 차이는?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "ChromaDB의 특징을 알려줘",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "StateGraph가 뭐야?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "객체 검출 모델은 어떻게 학습해?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "Segment Anything은 왜 강력해?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "DepthAnything의 원리는?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "리트리버는 무슨 역할이야?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "청킹은 왜 필요해?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "조건부 엣지가 뭐야?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "멀티에이전트 구조의 장점은?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "유사도 검색은 어떻게 동작해?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "YOLO의 버전별 차이가 뭐야?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "RAG와 파인튜닝 중 뭘 써야 해?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "트랜스포머 구조를 설명해줘",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "에이전트와 체인의 차이는?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "벡터 인덱스는 왜 쓰는 거야?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "프롬프트 엔지니어링이 뭐야?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "모델 경량화 방법에는 뭐가 있어?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "시맨틱 검색이란?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "툴 콜링은 어떻게 동작해?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "컨텍스트 윈도우가 뭐야?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "온디바이스 추론의 장점은?",
+            "gold": "rag_only",
+            "pred": "both"
+          },
+          {
+            "question": "파인튜닝과 프롬프트의 차이는?",
+            "gold": "rag_only",
+            "pred": "both"
+          }
+        ]
+      }
+    },
+    {
+      "name": "legacy_rule",
+      "desc": "교체 전 폴백 (이미지 있으면 both)",
+      "dev": {
+        "n": 30,
+        "accuracy": 0.6667,
+        "per_class_recall": {
+          "vision_only": 0.0,
+          "rag_only": 1.0,
+          "both": 1.0
+        },
+        "confusion": {
+          "vision_only": {
+            "vision_only": 0,
+            "rag_only": 0,
+            "both": 10
+          },
+          "rag_only": {
+            "vision_only": 0,
+            "rag_only": 10,
+            "both": 0
+          },
+          "both": {
+            "vision_only": 0,
+            "rag_only": 0,
+            "both": 10
+          }
+        },
+        "total_cost_s": 10.11,
+        "avg_cost_s": 0.337,
+        "vision_calls": 20,
+        "rag_calls": 30,
+        "wasted_vision_calls": 0,
+        "wasted_rag_calls": 10,
+        "injected_context_chars": 7341,
+        "wasted_context_chars": 2438,
+        "misrouted": [
+          {
+            "question": "이 이미지에 뭐가 보여?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "사진 속 객체를 세어줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "여기 사람 몇 명이야?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "화면에서 가장 큰 물체는?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "이 장면을 묘사해줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "앞쪽에 있는 물체가 뭐야?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "배경에 뭐가 있는지 알려줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "이 사진은 실내야 실외야?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "가까이 있는 대상만 알려줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "이미지에서 차량을 찾아줘",
+            "gold": "vision_only",
+            "pred": "both"
+          }
+        ]
+      },
+      "test": {
+        "n": 60,
+        "accuracy": 0.6667,
+        "per_class_recall": {
+          "vision_only": 0.0,
+          "rag_only": 1.0,
+          "both": 1.0
+        },
+        "confusion": {
+          "vision_only": {
+            "vision_only": 0,
+            "rag_only": 0,
+            "both": 20
+          },
+          "rag_only": {
+            "vision_only": 0,
+            "rag_only": 20,
+            "both": 0
+          },
+          "both": {
+            "vision_only": 0,
+            "rag_only": 0,
+            "both": 20
+          }
+        },
+        "total_cost_s": 20.22,
+        "avg_cost_s": 0.337,
+        "vision_calls": 40,
+        "rag_calls": 60,
+        "wasted_vision_calls": 0,
+        "wasted_rag_calls": 20,
+        "injected_context_chars": 14790,
+        "wasted_context_chars": 4913,
+        "misrouted": [
+          {
+            "question": "사람과 물건을 구분해서 알려줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "이 그림에서 눈에 띄는 게 뭐야?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "중앙에 있는 대상이 뭔지 알려줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "이 이미지에 위험해 보이는 게 있어?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "물체들이 얼마나 떨어져 있어?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "왼쪽에 있는 게 뭐야?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "이 이미지 요약해줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "화면에 글자가 보여?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "사진 속 인원수를 알려줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "이 장면에서 가장 앞에 있는 게 뭐야?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "이미지에 동물이 있어?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "여기서 탈것을 찾아줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "이 사진의 주요 피사체는?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "화면 오른쪽을 설명해줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "이 이미지에 몇 종류의 물체가 있어?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "사진에서 가장 먼 대상은?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "보이는 것만 정리해줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "이 사진 안전해 보여?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "화면 아래쪽에 뭐가 있어?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "찍힌 대상들을 나열해줘",
+            "gold": "vision_only",
+            "pred": "both"
+          }
+        ]
+      },
+      "all": {
+        "n": 90,
+        "accuracy": 0.6667,
+        "per_class_recall": {
+          "vision_only": 0.0,
+          "rag_only": 1.0,
+          "both": 1.0
+        },
+        "confusion": {
+          "vision_only": {
+            "vision_only": 0,
+            "rag_only": 0,
+            "both": 30
+          },
+          "rag_only": {
+            "vision_only": 0,
+            "rag_only": 30,
+            "both": 0
+          },
+          "both": {
+            "vision_only": 0,
+            "rag_only": 0,
+            "both": 30
+          }
+        },
+        "total_cost_s": 30.33,
+        "avg_cost_s": 0.337,
+        "vision_calls": 60,
+        "rag_calls": 90,
+        "wasted_vision_calls": 0,
+        "wasted_rag_calls": 30,
+        "injected_context_chars": 22131,
+        "wasted_context_chars": 7351,
+        "misrouted": [
+          {
+            "question": "이 이미지에 뭐가 보여?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "사진 속 객체를 세어줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "여기 사람 몇 명이야?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "화면에서 가장 큰 물체는?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "이 장면을 묘사해줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "앞쪽에 있는 물체가 뭐야?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "배경에 뭐가 있는지 알려줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "이 사진은 실내야 실외야?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "가까이 있는 대상만 알려줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "이미지에서 차량을 찾아줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "사람과 물건을 구분해서 알려줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "이 그림에서 눈에 띄는 게 뭐야?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "중앙에 있는 대상이 뭔지 알려줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "이 이미지에 위험해 보이는 게 있어?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "물체들이 얼마나 떨어져 있어?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "왼쪽에 있는 게 뭐야?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "이 이미지 요약해줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "화면에 글자가 보여?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "사진 속 인원수를 알려줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "이 장면에서 가장 앞에 있는 게 뭐야?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "이미지에 동물이 있어?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "여기서 탈것을 찾아줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "이 사진의 주요 피사체는?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "화면 오른쪽을 설명해줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "이 이미지에 몇 종류의 물체가 있어?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "사진에서 가장 먼 대상은?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "보이는 것만 정리해줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "이 사진 안전해 보여?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "화면 아래쪽에 뭐가 있어?",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "찍힌 대상들을 나열해줘",
+            "gold": "vision_only",
+            "pred": "both"
+          }
+        ]
+      }
+    },
+    {
+      "name": "heuristic_rule",
+      "desc": "교체 후 폴백 (지식 필요할 때만 both)",
+      "dev": {
+        "n": 30,
+        "accuracy": 0.9667,
+        "per_class_recall": {
+          "vision_only": 0.9,
+          "rag_only": 1.0,
+          "both": 1.0
+        },
+        "confusion": {
+          "vision_only": {
+            "vision_only": 9,
+            "rag_only": 0,
+            "both": 1
+          },
+          "rag_only": {
+            "vision_only": 0,
+            "rag_only": 10,
+            "both": 0
+          },
+          "both": {
+            "vision_only": 0,
+            "rag_only": 0,
+            "both": 10
+          }
+        },
+        "total_cost_s": 10.1,
+        "avg_cost_s": 0.3366,
+        "vision_calls": 20,
+        "rag_calls": 21,
+        "wasted_vision_calls": 0,
+        "wasted_rag_calls": 1,
+        "injected_context_chars": 5164,
+        "wasted_context_chars": 261,
+        "misrouted": [
+          {
+            "question": "배경에 뭐가 있는지 알려줘",
+            "gold": "vision_only",
+            "pred": "both"
+          }
+        ]
+      },
+      "test": {
+        "n": 60,
+        "accuracy": 0.9833,
+        "per_class_recall": {
+          "vision_only": 0.95,
+          "rag_only": 1.0,
+          "both": 1.0
+        },
+        "confusion": {
+          "vision_only": {
+            "vision_only": 19,
+            "rag_only": 0,
+            "both": 1
+          },
+          "rag_only": {
+            "vision_only": 0,
+            "rag_only": 20,
+            "both": 0
+          },
+          "both": {
+            "vision_only": 0,
+            "rag_only": 0,
+            "both": 20
+          }
+        },
+        "total_cost_s": 20.19,
+        "avg_cost_s": 0.3366,
+        "vision_calls": 40,
+        "rag_calls": 41,
+        "wasted_vision_calls": 0,
+        "wasted_rag_calls": 1,
+        "injected_context_chars": 10120,
+        "wasted_context_chars": 243,
+        "misrouted": [
+          {
+            "question": "화면 오른쪽을 설명해줘",
+            "gold": "vision_only",
+            "pred": "both"
+          }
+        ]
+      },
+      "all": {
+        "n": 90,
+        "accuracy": 0.9778,
+        "per_class_recall": {
+          "vision_only": 0.9333,
+          "rag_only": 1.0,
+          "both": 1.0
+        },
+        "confusion": {
+          "vision_only": {
+            "vision_only": 28,
+            "rag_only": 0,
+            "both": 2
+          },
+          "rag_only": {
+            "vision_only": 0,
+            "rag_only": 30,
+            "both": 0
+          },
+          "both": {
+            "vision_only": 0,
+            "rag_only": 0,
+            "both": 30
+          }
+        },
+        "total_cost_s": 30.29,
+        "avg_cost_s": 0.3366,
+        "vision_calls": 60,
+        "rag_calls": 62,
+        "wasted_vision_calls": 0,
+        "wasted_rag_calls": 2,
+        "injected_context_chars": 15284,
+        "wasted_context_chars": 504,
+        "misrouted": [
+          {
+            "question": "배경에 뭐가 있는지 알려줘",
+            "gold": "vision_only",
+            "pred": "both"
+          },
+          {
+            "question": "화면 오른쪽을 설명해줘",
+            "gold": "vision_only",
+            "pred": "both"
+          }
+        ]
+      }
+    }
+  ],
+  "summary": {
+    "정확도_고정체인": 0.3333,
+    "정확도_교체전": 0.6667,
+    "정확도_교체후": 0.9833,
+    "총시간_고정체인_s": 30.29,
+    "총시간_교체후_s": 20.19,
+    "시간절감_대비_고정체인": 0.3334,
+    "시간절감_대비_교체전": 0.0015,
+    "불필요_rag호출_교체전": 20,
+    "불필요_rag호출_교체후": 1,
+    "무관컨텍스트_교체전_자": 4913,
+    "무관컨텍스트_교체후_자": 243
+  }
+}

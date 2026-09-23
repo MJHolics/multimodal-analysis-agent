@@ -166,6 +166,35 @@ ORCHESTRATOR_SYSTEM = """당신은 멀티모달 분석 시스템의 오케스트
 {"routing": "both|vision_only|rag_only", "task_plan": "작업 계획 (한국어)"}"""
 
 
+# ── 규칙 라우팅 (LLM이 없거나 실패했을 때 쓰는 폴백 경로) ──────────
+#
+# legacy_rule_routing 은 2026-08-09 이전에 쓰던 폴백이다.
+# 이미지가 있으면 무조건 both 로 보내서, 이미지만 보면 되는 질문에도 RAG 검색을
+# 한 번 더 태웠다. tools/bench_routing.py 로 재 보니 vision_only 질의를 전부
+# 놓쳤고(해당 클래스 재현율 0), 그래서 heuristic_rule_routing 으로 교체했다.
+# 교체 전후를 다시 잴 수 있도록 옛 함수도 남겨 둔다.
+
+KNOWLEDGE_HINTS = (
+    "원리", "개념", "설명", "차이", "비교", "어떻게 동작", "동작 방식", "구조",
+    "알고리즘", "이론", "논문", "배경", "장단점", "언제 쓰", "왜 쓰", "정의",
+    "yolo", "sam", "segment anything", "depth", "depthanything", "rag",
+    "langgraph", "임베딩", "벡터", "트랜스포머",
+)
+
+
+def legacy_rule_routing(question: str, has_image: bool) -> str:
+    """교체 전 폴백 — 이미지가 있으면 항상 both."""
+    return "both" if has_image else "rag_only"
+
+
+def heuristic_rule_routing(question: str, has_image: bool) -> str:
+    """교체 후 폴백 — 이미지가 있어도 지식이 필요 없으면 vision_only 로 보낸다."""
+    if not has_image:
+        return "rag_only"
+    q = question.lower()
+    return "both" if any(h in q for h in KNOWLEDGE_HINTS) else "vision_only"
+
+
 def orchestrator_node(state: PipelineState) -> dict:
     question = state["question"]
     has_image = bool(state.get("image_b64"))
@@ -179,13 +208,13 @@ def orchestrator_node(state: PipelineState) -> dict:
                               HumanMessage(content=user_msg)]).content.strip()
             match = re.search(r"\{.*?\}", raw, re.DOTALL)
             parsed = json.loads(match.group()) if match else {}
-            routing = parsed.get("routing", "both" if has_image else "rag_only")
+            routing = parsed.get("routing", heuristic_rule_routing(question, has_image))
             task_plan = parsed.get("task_plan", "자동 계획")
         except Exception:
-            routing = "both" if has_image else "rag_only"
+            routing = heuristic_rule_routing(question, has_image)
             task_plan = "규칙 기반 라우팅 (LLM 오류)"
     else:
-        routing = "both" if has_image else "rag_only"
+        routing = heuristic_rule_routing(question, has_image)
         task_plan = "규칙 기반 라우팅 (Mock 모드)"
 
     if not has_image and routing != "rag_only":
